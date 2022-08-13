@@ -1,19 +1,39 @@
-import React, { useState } from 'react';
+import React, {FormEvent, useState} from 'react';
 import Link from "next/link";
 import InputGroup from "../components/InputGroup";
+import axios from "axios";
+import {useRouter} from "next/router";
 
 function Register() {
     const [email, setEmail] = useState("");
     const [errors, setErrors] = useState<any>({});
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const router = useRouter();
+
+    const handleSubmit = async (event: FormEvent) => {
+        event.preventDefault();
+        try {
+            const res = await axios.post("/auth/register", {
+                email,
+                password,
+                username
+            });
+
+            console.log(res);
+            router.push("/login");
+        } catch (error: any) {
+            console.log(error);
+            setErrors(error.response.data || {});
+        }
+    }
 
     return (
         <div className="bg-white">
             <div className='flex flex-col items-center justify-center h-screen p-6'>
                 <div className='w-10/12 mx-auto md:w-96'>
                     <h1 className="mb-2 text-lg font-medium text-black">회원가입</h1>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <InputGroup
                             placeholder="Email"
                             value={email}
