@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { AppDataSource } from "./data-source"
 import authRoutes from "./routes/auth";
 import subsRoutee from "./routes/subs";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const port = 4000;
@@ -16,6 +17,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cookieParser());
 
 dotenv.config();
 
