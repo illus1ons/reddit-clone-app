@@ -40,6 +40,7 @@ function Register() {
                     <form onSubmit={handleSubmit}>
                         <InputGroup
                             placeholder="Email"
+                            type="email"
                             value={email}
                             setValue={setEmail}
                             error={errors.email}
@@ -52,6 +53,7 @@ function Register() {
                         />
                         <InputGroup
                             placeholder="Password"
+                            type="password"
                             value={password}
                             setValue={setPassword}
                             error={errors.password}
