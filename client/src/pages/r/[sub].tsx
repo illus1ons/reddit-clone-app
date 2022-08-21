@@ -4,10 +4,11 @@ import {useRouter} from "next/router";
 import Image from "next/image";
 import useSWR from "swr";
 import {useAuthState} from "../../context/auth";
+import Sidebar from "../../components/Sidebar";
 
 function SubPage() {
     const [ownSub, setOwnSub] = useState(false);
-    const { authenticated, user } =- useAuthState();
+    const { authenticated, user } = useAuthState();
 
     const fetcher = async (url: string) => {
         try {
@@ -24,7 +25,7 @@ function SubPage() {
     const { data: sub, error } = useSWR(subName ? `/subs/${subName}` : null, fetcher);
 
     useEffect(() => {
-        if (!sub) return;
+        if (!sub || !user) return;
         setOwnSub(authenticated && user.username === sub.username);
     }, [sub]);
 
@@ -69,7 +70,7 @@ function SubPage() {
                         <div className="bg-gray-400">
                             {sub.bannerUrl ? (
                                 <div
-                                    className='h-56'
+                                    className="h-56"
                                     style={{
                                         backgroundImage: `url(${sub.bannerUrl})`,
                                         backgroundRepeat: 'no-repeat',
@@ -113,7 +114,9 @@ function SubPage() {
                     </div>
                     {/* 포스트와 사이드바 */}
                     <div className='flex max-w-5xl px-4 pt-5 mx-auto'>
-                        <div className="w-full md:mr-3 md:w-8/12"></div>
+                        <div className="w-full md:mr-3 md:w-8/12">
+                        </div>
+                        <Sidebar sub={sub} />
                     </div>
                 </>
             }
